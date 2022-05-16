@@ -1,9 +1,8 @@
 import csv
-import numpy as np
-from glob import glob
-from os import path as op
-
 import config as cfg
+import numpy as np
+import os.path as op
+from glob import glob
 
 
 def insert_depth():
@@ -43,7 +42,7 @@ def extract_depth(line, depth):
     x2 = int(x1) + int(w)
     box_depth = depth[int(y1):y2, int(x1):x2]
     dist = imple_depth(box_depth)
-    return ctgr, y1, x1, h, w, dist
+    return ctgr, y1, x1, h, w, f" {dist}"
 
 
 def imple_depth(data):
