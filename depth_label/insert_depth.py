@@ -1,5 +1,4 @@
 import csv
-import json
 import numpy as np
 from glob import glob
 from os import path as op
