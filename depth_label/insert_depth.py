@@ -58,12 +58,6 @@ def write_label(label_file, new_box_data, lane_data):
         writer = csv.writer(f)
         writer.writerows(new_box_data)
         f.writelines(lane_data)
-        # json.dump(lane_data, f, ensure_ascii=False)
-
-
-
-
-
 
 
 if __name__ == "__main__":
