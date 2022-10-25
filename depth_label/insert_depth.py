@@ -41,12 +41,12 @@ def read_label(directory):
 def extract_depth(line, depth, image=None):
     raw_label = line.strip("\n").split(",")
     ctgr, y1, x1, h, w, dist = raw_label
-    h = int(h)
-    w = int(w)
-    y1 = int(y1)
-    x1 = int(x1)
-    y2 = int(y1) + int(h)
-    x2 = int(x1) + int(w)
+    h = int(float(h))
+    w = int(float(w))
+    y1 = int(float(y1))
+    x1 = int(float(x1))
+    y2 = int(float(y1)) + int(float(h))
+    x2 = int(float(x1)) + int(float(w))
     reduce_h = h * cfg.box_ratio
     reduce_w = w * cfg.box_ratio
 

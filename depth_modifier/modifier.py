@@ -50,7 +50,7 @@ class DistModi:
 
     def draw_bbox(self, image_file):
         image = cv2.imread(image_file)
-        for line in self.bbox_data:
+        for i, line in enumerate(self.bbox_data):
             raw_label = line.strip("\n").split(",")
             ctgr, y1, x1, h, w, dist = raw_label
             y1 = int(y1)
@@ -60,7 +60,8 @@ class DistModi:
             dist = float(dist)
 
             image = cv2.rectangle(image, (x1, y1), (x2, y2), (255, 0, 0), 3)
-            self.image = cv2.putText(image, f"{dist:.2f}", (x1, y1), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 0, 255), 2)
+            image = cv2.putText(image, f"{dist:.2f}", (x1, int(y2-int(h)/2)), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 0, 255), 2)
+            self.image = cv2.putText(image, f"{i}", (x1, y1), cv2.FONT_HERSHEY_PLAIN, 1.5, (255, 255, 0), 2)
 
     def onMouse(self, event, x, y, flags, params):
         new_bbox = []
