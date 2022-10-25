@@ -1,6 +1,7 @@
 import csv
 import config as cfg
 import numpy as np
+import cv2
 import os.path as op
 from glob import glob
 
@@ -22,7 +23,9 @@ def read_label(directory):
     label_lists = glob(op.join(directory, "label", "*.txt"))
     label_lists.sort()
     for label_file in label_lists:
+        # image_file = label_file.replace("label", "image").replace(".txt", ".jpg")
         lidar_file = label_file.replace("label", "lidar").replace(".txt", ".npz")
+        # image = cv2.imread(image_file)
         lidar = np.load(lidar_file)
         depth = lidar["depth"]
         bbox_data = []
@@ -35,11 +38,23 @@ def read_label(directory):
         write_label(label_file, bbox_data, lines[split_line:])
 
 
-def extract_depth(line, depth):
+def extract_depth(line, depth, image=None):
     raw_label = line.strip("\n").split(",")
     ctgr, y1, x1, h, w, dist = raw_label
+    h = int(h)
+    w = int(w)
+    y1 = int(y1)
+    x1 = int(x1)
     y2 = int(y1) + int(h)
     x2 = int(x1) + int(w)
+    reduce_h = h * cfg.box_ratio
+    reduce_w = w * cfg.box_ratio
+
+    if image is not None:
+        image = cv2.circle(image, (int(x1), int(y1)), 5, (0, 255, 255), 5)
+        image = cv2.rectangle(image, (int(x1+reduce_w), int(y1+reduce_h)), (int(x2-reduce_w), int(y2-reduce_h)), (255, 0, 0), 5)
+        cv2.imshow("test", image)
+        cv2.waitKey()
     box_depth = depth[int(y1):y2, int(x1):x2]
     dist = imple_depth(box_depth)
     return ctgr, y1, x1, h, w, f" {dist}"
