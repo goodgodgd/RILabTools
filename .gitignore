@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+ckpt
+.idea
+*~
+.python-version
+.png
+.jpg
